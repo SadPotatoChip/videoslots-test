@@ -27,8 +27,11 @@ export default {
       const res = await fetch('https://picsum.photos/v2/list')
 
       const data = await res.json()
+      //create display urls
       for (let i = 0; i < data.length; i++) {
-        data[i].display_url = data[i].download_url.substring(0, data[i].download_url.length-10) + "/367/267"
+        let s = data[i].download_url;
+        s = s.substring(0, s.lastIndexOf("/"));
+        data[i].display_url = s.substring(0, s.lastIndexOf("/")) + "/367/267"
       }
       return data
     },
