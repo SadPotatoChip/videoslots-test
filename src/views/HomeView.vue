@@ -1,4 +1,5 @@
 <template>
+  <PaginationBar @new-page="refreshGallery"/>
   <ImageGallery
       :images="images"
   />
@@ -7,12 +8,14 @@
 <script>
 
 import ImageGallery from "@/components/ImageGallery";
+import PaginationBar from "@/components/PaginationBar";
 export default {
   name: 'HomeView',
   props: {
     showAddTask: Boolean,
   },
   components: {
+    PaginationBar,
     ImageGallery
 
   },
@@ -23,9 +26,9 @@ export default {
   },
   methods: {
 
-    async fetchImages() {
-      const res = await fetch('https://picsum.photos/v2/list')
-
+    async refreshGallery(inputData) {
+      const res = await fetch('https://picsum.photos/v2/list?page='+
+          inputData.pageNumber+ '&limit=' +inputData.numberOfResults)
       const data = await res.json()
       //create display urls
       for (let i = 0; i < data.length; i++) {
@@ -33,12 +36,13 @@ export default {
         s = s.substring(0, s.lastIndexOf("/"));
         data[i].display_url = s.substring(0, s.lastIndexOf("/")) + "/367/267"
       }
-      return data
+      this.images = data
     },
 
   },
   async created() {
-    this.images = await this.fetchImages()
+    let defaultData = {pageNumber:1, numberOfResults:100}
+    await this.refreshGallery(defaultData)
   },
 }
 </script>
