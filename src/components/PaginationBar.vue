@@ -1,16 +1,16 @@
 <template>
   <header>
-    <form @submit="onSubmit" class="pagination-form">
-      <div class="form-control">
-        <label>Results Per Page</label>
-        <input type="text" v-model="numberOfResults" name="numberOfResults" placeholder="100" />
-      </div>
-      <div class="form-control">
-        <label>Page</label>
-        <input type="text" v-model="pageNumber" name="pageNumber" placeholder="1" />
-      </div>
-      <input type="submit" value="Filter" class="btn btn-block" />
-    </form>
+    <div >
+      <label>Results Per Page: </label>
+      <input type="text" @change='$emit("update-per-page-number", $event.target.value)' name="numberOfResults" placeholder="100" />
+    </div>
+    <div >
+      <input type="button" @click='$emit("previous-page", $event.target.value)' value="Previous Page"/>
+    </div>
+    <label id="pageLabel">Page 1</label>
+    <div>
+      <input type="button" @click='$emit("next-page", $event.target.value)' value="Next Page"/>
+    </div>
   </header>
 </template>
 
@@ -25,16 +25,6 @@ export default {
     }
   },
   methods: {
-    onSubmit(e) {
-      e.preventDefault()
-
-      const newPage = {
-        pageNumber: this.pageNumber,
-        numberOfResults: this.numberOfResults,
-      }
-      this.$emit('new-page', newPage)
-
-    },
   },
 }
 </script>
@@ -42,28 +32,9 @@ export default {
 <style scoped>
 header {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: space-around;
+  align-items: flex-start;
   margin-bottom: 20px;
-}
-.pagination-form {
-  margin-bottom: 40px;
-}
-
-.form-control {
-  margin: 20px 0;
-}
-
-.form-control label {
-  display: block;
-}
-
-.form-control input {
-  width: 100%;
-  height: 40px;
-  margin: 5px;
-  padding: 3px 7px;
-  font-size: 17px;
 }
 
 </style>
