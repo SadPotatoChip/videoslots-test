@@ -2,8 +2,11 @@
   <header>
     <div >
       <label>Results Per Page: </label>
-<!--      <input type="text" @change='$emit("update-per-page-number", $event.target.value)' name="numberOfResults" placeholder="100" />-->
       <input ref="numberOfResults" type="text" @change='debounceInput()' name="numberOfResults" placeholder="100" />
+    </div>
+    <div >
+      <label>Authors Name: </label>
+      <input ref="authorsName" type="text" @change='$emit("filter-by-author", $event.target.value)' name="filterByAuthor" placeholder="" />
     </div>
     <div >
       <input type="button" @click='$emit("previous-page", $event.target.value)' value="Previous Page"/>
